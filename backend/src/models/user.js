@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 // this is schema how our database should looks like
 // like defining a schema
@@ -68,6 +70,30 @@ const userSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+// for auth Create a JWT Token
+// {} 1st option me jo daalange wo hide rahega
+// arrow function will break here because this keyword will not work in arrow function
+
+userSchema.methods.getJWT = async function () {
+  const user = this;
+
+  const token = jwt.sign({ _id: user._id }, "DEV@Tinder$790", {
+    expiresIn: "1d",
+  });
+  return token;
+};
+
+// for login check if password is correct
+userSchema.methods.validatePassword = async function (passwordInputByUser) {
+  const user = this;
+  const passwordHash = user.password;
+  const isPasswordValid = await bcrypt.compare(
+    passwordInputByUser,
+    passwordHash
+  );
+  return isPasswordValid;
+};
 
 // creating a model
 const User = mongoose.model("User", userSchema);
