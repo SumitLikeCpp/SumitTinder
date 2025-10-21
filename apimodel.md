@@ -13,6 +13,10 @@
 ## connectionRequestRouter
 - POST /request/send/intrested/:userId
 - POST /request/send/ignored/:userId
+- from these two req we can make it dynamic
+- POST /request/send/:status/:userId
+
+
 - POST /request/review/accepted/:requestId
 - POST /request/review/rejected/:requestId
 

@@ -3,6 +3,11 @@ const validator = require("validator");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
+/**
+ * NOTES: Its not a good idea that we should put any connection request in user schema 
+ * connection req bole to ek banda dusre ka connection accept or reject kare
+ */
+
 // this is schema how our database should looks like
 // like defining a schema
 const userSchema = new mongoose.Schema(
@@ -11,6 +16,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       // required means this is must in collection
       required: true,
+      index:true,
       minLength: 4,
     },
     lastName: {
@@ -70,6 +76,9 @@ const userSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+// if we want to find the user using compound index
+userSchema.index({firstName:1,lastName:1});
 
 // for auth Create a JWT Token
 // {} 1st option me jo daalange wo hide rahega
