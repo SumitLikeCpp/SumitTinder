@@ -61,4 +61,50 @@ requestRouter.post(
   }
 );
 
+requestRouter.post(
+  "/request/review/:status/:requestId",
+  userAuth,
+  async (req, res) => {
+    try {
+      const { status, requestId } = req.params;
+      const loggedInUser = req.user;
+
+      // validate the status
+      // we can accept the user or reject the user
+      const allowedStatus = ["accepted", "rejected"];
+      if (!allowedStatus.includes(status)) {
+        return res.status(400).json({ message: "Status not allowed" });
+      }
+
+      // sumit => alia?
+      // is alia loggedIn
+      // ie loggedInId === toUserId
+      // status === intrested
+      // request Id should be valid
+
+      const connectionRequest = await ConnectionRequest.findOne({
+        // id hoga request id ka
+        _id: requestId,
+        // toUserId jo abhi login hai and jaha se req aa rha hai uska status interested hona chaiye
+        toUserId: loggedInUser._id,
+        status: "interested",
+      });
+
+      if (!connectionRequest) {
+        return res
+          .status(404)
+          .json({ message: "Connection request not found" });
+      }
+
+      connectionRequest.status = status;
+
+      const data = await connectionRequest.save();
+
+      res.json({ message: "Connection request " + status, data });
+    } catch (err) {
+      res.status(400).send("ERROR: " + err.message);
+    }
+  }
+);
+
 module.exports = requestRouter;

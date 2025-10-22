@@ -3,6 +3,7 @@ const connectDB = require("./config/database.js");
 const app = express();
 const validator = require("validator");
 const cookieParser = require("cookie-parser");
+const userRouter = require("./routes/user.js")
 
 
 
@@ -19,6 +20,7 @@ app.use(cookieParser());
 app.use("/" , authRouter)
 app.use("/" , profileRouter)
 app.use("/" , requestRouter)
+app.use("/" , userRouter);
 
 connectDB()
   .then(() => {

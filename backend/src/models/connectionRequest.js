@@ -6,6 +6,9 @@ const connectionRequestSchema = new mongoose.Schema(
     // the typoe of userId from mongoose is not string
     fromUserId: {
       type: mongoose.Schema.Types.ObjectId,
+      // humlog link kar sakte hai user wala schema se isko so that the link is generated
+      // reference to the user collection
+      ref: "User",
       required: true,
     },
     toUserId: {

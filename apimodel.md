@@ -19,10 +19,12 @@
 
 - POST /request/review/accepted/:requestId
 - POST /request/review/rejected/:requestId
+- from uppar 2 we can do dynamically
+- POST /request/review/:status/:requestId
 
 ## userRouter
-- GET /user/connections
 - GET /user/requests/received
+- GET /user/connections
 - GET /user/feed - Gets the profiles of other users on platform
 
 
